@@ -1,103 +1,100 @@
-// RAM matching logic.
+// Quant-aware RAM matching.
 //
-// Extracts a parameter size from a model id/name, maps it to a required-RAM
-// figure, and decides whether the system can run it.
+// People don't run models at full precision locally — they run quantized GGUFs
+// via Ollama. So instead of one made-up RAM number per model, we estimate the
+// real footprint at each common quant level and check what actually fits, then
+// use VRAM to decide whether it runs *fast* (in GPU) or just *slow* (RAM only).
 
-// Exact required-RAM table from the spec (size in B -> required GB).
-const RAM_TABLE = {
-  3: 3,
-  7: 6,
-  8: 7,
-  13: 10,
-  14: 12,
-  32: 22,
-  34: 24,
-  70: 48,
-  72: 50,
-};
+const { verifiedOllamaCommand } = require("./ollama-models");
 
-// Pull the parameter size (in billions) out of a model id/name.
-// Matches tokens like "3b", "70b", "1.5b". Returns the largest match so we
-// don't accidentally pick a version number, and null if nothing detectable.
+// Bytes per weight by quant, plus a runtime overhead factor for KV cache /
+// activations / context. Calibrated against real GGUF sizes.
+const QUANTS = [
+  { label: "Q4_K_M", bpw: 0.6 },
+  { label: "Q8_0", bpw: 1.1 },
+  { label: "FP16", bpw: 2.0 },
+];
+const OVERHEAD = 1.2;
+
+// Pull the parameter size out of a model id/name.
+// Handles Mixture-of-Experts tokens ("8x7b" -> 56B total, which is what must
+// sit in memory) and plain dense tokens ("70b", "1.5b"). Returns null if not
+// detectable.
 function extractSize(idOrName) {
   const str = String(idOrName).toLowerCase();
+
+  // MoE: NxM b  (all experts must be resident in RAM)
+  const moe = str.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*b/);
+  if (moe) {
+    const n = parseInt(moe[1], 10);
+    const m = parseFloat(moe[2]);
+    return { paramsB: n * m, tag: `${n}x${m}b`, label: `${n}x${m}B` };
+  }
+
+  // Dense: pick the largest "<num>b" token so we don't grab a version number.
   const matches = str.match(/(\d+(?:\.\d+)?)\s*b/g);
   if (!matches) return null;
   let best = null;
-  for (const m of matches) {
-    const num = parseFloat(m);
+  for (const mt of matches) {
+    const num = parseFloat(mt);
     if (!isNaN(num) && (best === null || num > best)) best = num;
   }
-  return best;
+  if (best === null) return null;
+  return { paramsB: best, tag: `${best}b`, label: `${best}B` };
 }
 
-// Map a size in billions to required RAM in GB.
-function requiredRAM(sizeB) {
-  const rounded = Math.round(sizeB);
-  if (RAM_TABLE[rounded] !== undefined) return RAM_TABLE[rounded];
-  // Fallback for sizes not in the table: ~0.7x params, min 2GB.
-  return Math.max(2, Math.round(sizeB * 0.7));
-}
-
-// Best-effort `ollama pull` command for a model id.
-function buildOllamaCommand(id) {
-  const slug = id.split("/").pop().split(":")[0].toLowerCase();
-  const sizeTok = (slug.match(/(\d+(?:\.\d+)?)b/) || [])[0];
-
-  const families = [
-    { test: /llama-?(\d+(?:\.\d+)?)/, name: (v) => `llama${v}` },
-    { test: /gemma-?(\d+)/, name: (v) => `gemma${v}` },
-    { test: /qwen-?(\d+(?:\.\d+)?)/, name: (v) => `qwen${v}` },
-    { test: /phi-?(\d+(?:\.\d+)?)/, name: (v) => `phi${v}` },
-    { test: /mixtral/, name: () => `mixtral` },
-    { test: /mistral/, name: () => `mistral` },
-    { test: /deepseek/, name: () => `deepseek-r1` },
-  ];
-
-  for (const f of families) {
-    const m = slug.match(f.test);
-    if (m) {
-      const fam = f.name(m[1]);
-      return `ollama pull ${fam}${sizeTok ? ":" + sizeTok : ""}`;
-    }
-  }
-  return `ollama pull ${slug}`;
+function requiredFor(paramsB, bpw) {
+  return Math.max(1, Math.ceil(paramsB * bpw * OVERHEAD));
 }
 
 function matchModels(models, system) {
-  const have = system.totalRAM;
+  const totalRAM = system.totalRAM;
+  const vram = system.vram || 0;
+
   const runnable = [];
   const notRunnable = [];
 
   for (const model of models) {
     const id = model.id || model.name || "";
-    const sizeB = extractSize(model.name || id) || extractSize(id);
+    const size = extractSize(model.name || id) || extractSize(id);
+    if (!size) continue; // skip models with no detectable size
 
-    // Skip models with no detectable size silently.
-    if (sizeB === null) continue;
+    // Footprint at each quant level.
+    const quants = QUANTS.map((q) => {
+      const required = requiredFor(size.paramsB, q.bpw);
+      return { label: q.label, required, fitsRAM: totalRAM >= required };
+    });
 
-    const required = requiredRAM(sizeB);
+    // Smallest quant that fits in total RAM (Q4 first).
+    const best = quants.find((q) => q.fitsRAM) || null;
+
     const entry = {
       id,
-      sizeLabel: `${Number.isInteger(sizeB) ? sizeB : sizeB}B`,
-      required,
-      have,
-      ollama: buildOllamaCommand(id),
+      sizeLabel: size.label,
+      paramsB: size.paramsB,
+      quants,
+      best,
+      have: totalRAM,
+      vram,
+      ollama: verifiedOllamaCommand(id, size.tag),
     };
 
-    if (have >= required) {
+    if (best) {
+      // Runs fast if the best-fitting quant fits in VRAM; otherwise RAM-only.
+      entry.speed = vram > 0 && best.required <= vram ? "fast" : "slow";
       runnable.push(entry);
     } else {
-      entry.missing = required - have;
+      // Nothing fits — report the gap at the lightest (Q4) quant.
+      entry.missing = quants[0].required - totalRAM;
       notRunnable.push(entry);
     }
   }
 
-  // Smaller models first in the runnable list; largest-deficit last.
-  runnable.sort((a, b) => a.required - b.required);
-  notRunnable.sort((a, b) => a.required - b.required);
+  // Smallest first among runnable; smallest-deficit first among not-runnable.
+  runnable.sort((a, b) => a.paramsB - b.paramsB);
+  notRunnable.sort((a, b) => a.paramsB - b.paramsB);
 
   return { runnable, notRunnable };
 }
 
-module.exports = { matchModels, extractSize, requiredRAM, buildOllamaCommand };
+module.exports = { matchModels, extractSize, requiredFor, QUANTS };
