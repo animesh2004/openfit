@@ -26,10 +26,10 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`
-openfit — find which LLMs your machine can run, via OpenRouter
+llmfit — find which LLMs your machine can run, via OpenRouter
 
 Usage:
-  npx @_abstel/openfit [options]
+  npx llmfit [options]
 
 Options:
   --free | --paid              filter by OpenRouter tier (skips the prompt)
@@ -39,9 +39,9 @@ Options:
   -v, --version                show version
 
 Examples:
-  npx @_abstel/openfit                 interactive
-  npx @_abstel/openfit --free --code   free coding models, no prompts
-  npx @_abstel/openfit --paid --json   all paid models as JSON
+  npx llmfit                 interactive
+  npx llmfit --free --code   free coding models, no prompts
+  npx llmfit --paid --json   all paid models as JSON
 `);
 }
 

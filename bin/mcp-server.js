@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// openfit MCP server — exposes openfit's hardware scan + model-fit logic as
+// llmfit MCP server — exposes llmfit's hardware scan + model-fit logic as
 // Model Context Protocol tools, so Claude Code / Cursor / VS Code / Windsurf /
 // Zed (any MCP client) can ask "what can this machine run?" directly.
 
@@ -20,7 +20,7 @@ const pkg = require("../package.json");
 const USE_CASES = ["text", "code", "vision", "image", "audio", "any"];
 
 const server = new Server(
-  { name: "openfit", version: pkg.version },
+  { name: "llmfit", version: pkg.version },
   { capabilities: { tools: {} } }
 );
 
@@ -145,10 +145,10 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   // stderr is safe for logs; stdout is the JSON-RPC channel.
-  console.error(`openfit MCP server v${pkg.version} running on stdio`);
+  console.error(`llmfit MCP server v${pkg.version} running on stdio`);
 }
 
 main().catch((err) => {
-  console.error("openfit MCP server failed:", err);
+  console.error("llmfit MCP server failed:", err);
   process.exit(1);
 });
