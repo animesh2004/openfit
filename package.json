@@ -1,6 +1,6 @@
 {
   "name": "@_abstel/openfit",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Find which LLMs can run on your system via OpenRouter",
   "author": "Animesh",
   "repository": {
@@ -12,7 +12,8 @@
     "url": "https://github.com/animesh2004/openfit/issues"
   },
   "bin": {
-    "openfit": "bin/cli.js"
+    "openfit": "bin/cli.js",
+    "openfit-mcp": "bin/mcp-server.js"
   },
   "files": [
     "bin/",
@@ -30,6 +31,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "axios": "^1.6.0",
     "boxen": "^5.1.2",
     "chalk": "^4.1.2",

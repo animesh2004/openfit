@@ -55,6 +55,41 @@ npx @_abstel/openfit --help             # all options
 > are well represented; true image-generation and audio models are a short list
 > (and mostly on the paid tier).
 
+## Use it from your editor (MCP)
+
+openfit ships an [MCP](https://modelcontextprotocol.io) server, so **Claude Code,
+Cursor, VS Code (Copilot), Windsurf and Zed** can call it directly — ask your AI
+"what models can I run on this machine?" and it answers with live hardware data.
+
+It exposes three tools:
+
+| Tool | What it does |
+|------|--------------|
+| `scan_system` | Returns this machine's RAM / CPU / GPU / VRAM |
+| `find_runnable_models` | Lists OpenRouter models that fit (by tier + use case) with quant + ollama command |
+| `check_model` | Checks whether a specific model/size fits, with a fast/slow/won't-run verdict |
+
+### Claude Code
+
+```bash
+claude mcp add openfit -- npx -y -p @_abstel/openfit openfit-mcp
+```
+
+### Cursor / VS Code / Windsurf / Zed
+
+Add to your MCP config (`.cursor/mcp.json`, VS Code `mcp.json`, etc.):
+
+```json
+{
+  "mcpServers": {
+    "openfit": {
+      "command": "npx",
+      "args": ["-y", "-p", "@_abstel/openfit", "openfit-mcp"]
+    }
+  }
+}
+```
+
 ## Don't have the RAM?
 
 Any model can be run through the [OpenRouter API](https://openrouter.ai) without
