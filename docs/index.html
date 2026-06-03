@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>llmfit — find which LLMs your machine can run</title>
-<meta name="description" content="llmfit is a zero-install CLI + MCP server that detects your RAM, CPU, GPU and VRAM, then tells you which OpenRouter models you can actually run locally — quant-aware, with the exact ollama pull command. Works in Claude Code, Cursor and VS Code." />
+<title>runllm — find which LLMs your machine can run</title>
+<meta name="description" content="runllm is a zero-install CLI + MCP server that detects your RAM, CPU, GPU and VRAM, then tells you which OpenRouter models you can actually run locally — quant-aware, with the exact ollama pull command. Works in Claude Code, Cursor and VS Code." />
 <meta name="color-scheme" content="dark" />
 
-<meta property="og:title" content="llmfit — find which LLMs your machine can run" />
+<meta property="og:title" content="runllm — find which LLMs your machine can run" />
 <meta property="og:description" content="Quant-aware, GPU-aware. One command — or call it from Claude Code, Cursor and VS Code via MCP." />
 <meta property="og:type" content="website" />
 
@@ -183,12 +183,12 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="brand" href="#top"><span class="dot"></span>llm<b>fit</b></a>
+    <a class="brand" href="#top"><span class="dot"></span>run<b>llm</b></a>
     <div class="nav-links">
       <a href="#editors" class="hide-sm">Editors</a>
       <a href="#how" class="hide-sm">How</a>
-      <a href="https://www.npmjs.com/package/llmfit" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6 18h6v-3h3V6H6v12z"/></svg>npm</a>
-      <a href="https://github.com/animesh2004/llmfit" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>GitHub</a>
+      <a href="https://www.npmjs.com/package/runllm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6 18h6v-3h3V6H6v12z"/></svg>npm</a>
+      <a href="https://github.com/animesh2004/runllm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>GitHub</a>
     </div>
   </div>
 </nav>
@@ -206,7 +206,7 @@
 
     <div class="install" id="install">
       <span class="prompt">$</span>
-      <code id="cmd">npx llmfit</code>
+      <code id="cmd">npx runllm</code>
       <button class="copy-btn" id="copy" aria-label="Copy install command">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <span id="copy-label">Copy</span>
@@ -218,7 +218,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         Add to your editor
       </a>
-      <a class="btn ghost" href="https://github.com/animesh2004/llmfit" target="_blank" rel="noopener">
+      <a class="btn ghost" href="https://github.com/animesh2004/runllm" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
         Star on GitHub
       </a>
@@ -229,14 +229,14 @@
 <!-- TERMINAL DEMO -->
 <div class="wrap term-section">
   <div class="terminal">
-    <div class="term-bar"><span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span><span class="title">~ llmfit</span></div>
-    <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">npx llmfit --free --text</span>
+    <div class="term-bar"><span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span><span class="title">~ runllm</span></div>
+    <div class="term-body"><span class="c-prompt">$</span> <span class="c-cmd">npx runllm --free --text</span>
 
 <span class="c-green">✔</span> <span class="c-dim">System scanned</span>
 <span class="c-green">✔</span> <span class="c-dim">Found 25 free text models</span>
 
 <span class="c-box">╭──────────────────────────────────╮</span>
-<span class="c-box">│</span>      <span class="c-white">🔍 LLMFIT SYSTEM SCAN</span>      <span class="c-box">│</span>
+<span class="c-box">│</span>      <span class="c-white">🔍 RUNLLM SYSTEM SCAN</span>      <span class="c-box">│</span>
 <span class="c-box">╰──────────────────────────────────╯</span>
 
 <span class="c-white">RAM:</span>  16 GB total / 9 GB free
@@ -272,7 +272,7 @@
   <div class="wrap">
     <div class="eyebrow">Model Context Protocol</div>
     <h2>Use it right inside your editor</h2>
-    <p class="lead">llmfit ships an MCP server, so your AI assistant can answer “what can I run on this machine?” with live hardware data — no copy-pasting.</p>
+    <p class="lead">runllm ships an MCP server, so your AI assistant can answer “what can I run on this machine?” with live hardware data — no copy-pasting.</p>
 
     <div class="editors">
       <div class="editor-chip"><span class="d"></span> Claude Code</div>
@@ -283,24 +283,24 @@
     </div>
 
     <div class="codeblock">
-      <div class="cb-head"><span>Claude Code — one line</span><button class="mini-copy" data-copy="claude mcp add llmfit -- npx -y -p llmfit llmfit-mcp">Copy</button></div>
-      <pre><span class="k">claude</span> mcp add llmfit -- npx -y -p llmfit llmfit-mcp</pre>
+      <div class="cb-head"><span>Claude Code — one line</span><button class="mini-copy" data-copy="claude mcp add runllm -- npx -y -p runllm runllm-mcp">Copy</button></div>
+      <pre><span class="k">claude</span> mcp add runllm -- npx -y -p runllm runllm-mcp</pre>
     </div>
 
     <div class="codeblock">
       <div class="cb-head"><span>Cursor / VS Code / Windsurf — mcp.json</span><button class="mini-copy" data-copy='{
   "mcpServers": {
-    "llmfit": {
+    "runllm": {
       "command": "npx",
-      "args": ["-y", "-p", "llmfit", "llmfit-mcp"]
+      "args": ["-y", "-p", "runllm", "runllm-mcp"]
     }
   }
 }'>Copy</button></div>
       <pre>{
   <span class="s">"mcpServers"</span>: {
-    <span class="s">"llmfit"</span>: {
+    <span class="s">"runllm"</span>: {
       <span class="s">"command"</span>: <span class="s">"npx"</span>,
-      <span class="s">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"-p"</span>, <span class="s">"llmfit"</span>, <span class="s">"llmfit-mcp"</span>]
+      <span class="s">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"-p"</span>, <span class="s">"runllm"</span>, <span class="s">"runllm-mcp"</span>]
     }
   }
 }</pre>
@@ -317,9 +317,9 @@
 <!-- FEATURES -->
 <section id="features">
   <div class="wrap">
-    <div class="eyebrow">Why llmfit</div>
+    <div class="eyebrow">Why runllm</div>
     <h2>Honest answers, not guesses.</h2>
-    <p class="lead">Most “can I run it?” tools give one made-up number. llmfit models how you actually run LLMs.</p>
+    <p class="lead">Most “can I run it?” tools give one made-up number. runllm models how you actually run LLMs.</p>
     <div class="grid">
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg></div>
@@ -349,7 +349,7 @@
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
         <h3>Scriptable</h3>
-        <p>Flags + <code>--json</code> for CI and pipelines: <code>llmfit --free --code --json</code>. No prompts, machine-readable.</p>
+        <p>Flags + <code>--json</code> for CI and pipelines: <code>runllm --free --code --json</code>. No prompts, machine-readable.</p>
       </div>
     </div>
   </div>
@@ -377,7 +377,7 @@
     <p class="lead" style="margin:0 auto 28px;">One command, about five seconds.</p>
     <div class="install" id="install2" style="display:inline-flex">
       <span class="prompt">$</span>
-      <code>npx llmfit</code>
+      <code>npx runllm</code>
       <button class="copy-btn" id="copy2" aria-label="Copy install command">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <span id="copy-label2">Copy</span>
@@ -389,10 +389,10 @@
 
 <footer>
   <div class="foot-inner">
-    <a class="brand" href="#top"><span class="dot"></span>llm<b>fit</b></a>
+    <a class="brand" href="#top"><span class="dot"></span>run<b>llm</b></a>
     <div class="foot-links">
-      <a href="https://www.npmjs.com/package/llmfit" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6 18h6v-3h3V6H6v12z"/></svg>npm</a>
-      <a href="https://github.com/animesh2004/llmfit" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>GitHub</a>
+      <a href="https://www.npmjs.com/package/runllm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6 18h6v-3h3V6H6v12z"/></svg>npm</a>
+      <a href="https://github.com/animesh2004/runllm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>GitHub</a>
       <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a>
       <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a>
     </div>
@@ -413,8 +413,8 @@
       });
     });
   }
-  wireCopy('copy', 'copy-label', 'npx llmfit');
-  wireCopy('copy2', 'copy-label2', 'npx llmfit');
+  wireCopy('copy', 'copy-label', 'npx runllm');
+  wireCopy('copy2', 'copy-label2', 'npx runllm');
 
   document.querySelectorAll('.mini-copy').forEach(function (b) {
     b.addEventListener('click', function () {

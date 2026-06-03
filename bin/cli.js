@@ -26,10 +26,10 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`
-llmfit — find which LLMs your machine can run, via OpenRouter
+runllm — find which LLMs your machine can run, via OpenRouter
 
 Usage:
-  npx llmfit [options]
+  npx runllm [options]
 
 Options:
   --free | --paid              filter by OpenRouter tier (skips the prompt)
@@ -39,9 +39,9 @@ Options:
   -v, --version                show version
 
 Examples:
-  npx llmfit                 interactive
-  npx llmfit --free --code   free coding models, no prompts
-  npx llmfit --paid --json   all paid models as JSON
+  npx runllm                 interactive
+  npx runllm --free --code   free coding models, no prompts
+  npx runllm --paid --json   all paid models as JSON
 `);
 }
 

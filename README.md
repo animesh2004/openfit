@@ -1,19 +1,19 @@
-# llmfit
+# runllm
 
 Find which LLMs can run on your machine — quant-aware, GPU-aware, via OpenRouter.
 
 ## Usage
 
 ```bash
-npx llmfit
+npx runllm
 ```
 
 Or skip the prompts:
 
 ```bash
-npx llmfit --free --code      # free coding models, no prompts
-npx llmfit --paid --json      # all paid models, machine-readable
-npx llmfit --help             # all options
+npx runllm --free --code      # free coding models, no prompts
+npx runllm --paid --json      # all paid models, machine-readable
+npx runllm --help             # all options
 ```
 
 ## What it does
@@ -31,7 +31,7 @@ npx llmfit --help             # all options
 1. Pick **Free** or **Paid** (or pass `--free` / `--paid`).
 2. Pick a **use case** — Text/Chat, Code, Vision, Image generation, Audio, or Any
    (or pass `--text`, `--code`, …).
-3. llmfit scans your hardware silently.
+3. runllm scans your hardware silently.
 4. It pulls the full model list from OpenRouter and filters by your use case using
    each model's input/output modalities.
 5. For every model it computes the footprint at Q4 / Q8 / FP16
@@ -57,7 +57,7 @@ npx llmfit --help             # all options
 
 ## Use it from your editor (MCP)
 
-llmfit ships an [MCP](https://modelcontextprotocol.io) server, so **Claude Code,
+runllm ships an [MCP](https://modelcontextprotocol.io) server, so **Claude Code,
 Cursor, VS Code (Copilot), Windsurf and Zed** can call it directly — ask your AI
 "what models can I run on this machine?" and it answers with live hardware data.
 
@@ -72,7 +72,7 @@ It exposes three tools:
 ### Claude Code
 
 ```bash
-claude mcp add llmfit -- npx -y -p llmfit llmfit-mcp
+claude mcp add runllm -- npx -y -p runllm runllm-mcp
 ```
 
 ### Cursor / VS Code / Windsurf / Zed
@@ -82,9 +82,9 @@ Add to your MCP config (`.cursor/mcp.json`, VS Code `mcp.json`, etc.):
 ```json
 {
   "mcpServers": {
-    "llmfit": {
+    "runllm": {
       "command": "npx",
-      "args": ["-y", "-p", "llmfit", "llmfit-mcp"]
+      "args": ["-y", "-p", "runllm", "runllm-mcp"]
     }
   }
 }

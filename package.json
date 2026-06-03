@@ -1,19 +1,19 @@
 {
-  "name": "llmfit",
+  "name": "runllm",
   "version": "1.0.0",
   "description": "Find which LLMs can run on your machine — quant-aware, GPU-aware, via OpenRouter. CLI + MCP server.",
   "author": "Animesh",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/animesh2004/llmfit.git"
+    "url": "git+https://github.com/animesh2004/runllm.git"
   },
-  "homepage": "https://github.com/animesh2004/llmfit#readme",
+  "homepage": "https://github.com/animesh2004/runllm#readme",
   "bugs": {
-    "url": "https://github.com/animesh2004/llmfit/issues"
+    "url": "https://github.com/animesh2004/runllm/issues"
   },
   "bin": {
-    "llmfit": "bin/cli.js",
-    "llmfit-mcp": "bin/mcp-server.js"
+    "runllm": "bin/cli.js",
+    "runllm-mcp": "bin/mcp-server.js"
   },
   "files": [
     "bin/",

@@ -32,7 +32,7 @@ function render({ system, modelType, useCase, runnable, notRunnable }) {
   const useLabel = USE_CASE_LABELS[useCase] || "";
   const label = useLabel ? `${tier} ${useLabel}` : tier;
 
-  const header = boxen(chalk.bold.cyan("🔍 LLMFIT SYSTEM SCAN"), {
+  const header = boxen(chalk.bold.cyan("🔍 RUNLLM SYSTEM SCAN"), {
     padding: { left: 6, right: 6, top: 0, bottom: 0 },
     borderStyle: "round",
     borderColor: "cyan",
